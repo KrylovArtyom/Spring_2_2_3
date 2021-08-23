@@ -6,7 +6,7 @@
     <title>All users</title>
     <style>
         TABLE {
-            width: 300px;
+            width: 600px;
             border-collapse: collapse;
         }
 
@@ -38,10 +38,9 @@
             <td th:text="${user.createdAt}"/>
             <td th:text="${user.updatedAt}"/>
             <td>
-                <a th:href="@{/users/{id}/editUser(id=${user.id})}">
-                   Edit
-                </a>
-
+                <form th:method="GET" th:action="@{/users/{id}/editUser(id=${user.id})}">
+                    <input type="submit" value="Edit" />
+                </form>
                 <form th:method="DELETE" th:action="@{/users/{id}(id=${user.id})}">
                     <input type="submit" value="Delete" />
                 </form>

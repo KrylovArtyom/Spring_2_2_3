@@ -67,6 +67,7 @@
     </dependencies>
 
     <build>
+        <finalName>Spring_2_2_3</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -92,6 +93,5 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>Spring_2_2_3</finalName>
     </build>
 </project>

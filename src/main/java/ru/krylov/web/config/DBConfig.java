@@ -39,13 +39,7 @@ public class DBConfig {
 		return dataSource;
 	}
 
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		System.out.println("Entity manager initializing");
-		LocalContainerEntityManagerFactoryBean em
-				= new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(dataSource());
-
+	private Properties getProperties() {
 		Properties prop = new Properties();
 		prop.put("dialect", env.getProperty("dialect"));
 		prop.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
@@ -53,9 +47,15 @@ public class DBConfig {
 		prop.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
 		prop.put("current_session_context_class", env.getProperty("current_session_context_class"));
 
-		em.setJpaProperties(prop);
-		em.setPackagesToScan("ru.krylov.web");
+		return prop;
+	}
 
+	@Bean
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+		em.setDataSource(dataSource());
+		em.setJpaProperties(getProperties());
+		em.setPackagesToScan("ru.krylov.web");
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 
@@ -64,10 +64,14 @@ public class DBConfig {
 
 	@Bean
 	public PlatformTransactionManager transactionManager() {
-		System.out.println("Transaction manager initializing");
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
 
 		return transactionManager;
+	}
+
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
 	}
 }

@@ -15,7 +15,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> allUsers() {
-		return entityManager.createQuery(new String("FROM User"), User.class).getResultList();
+		return entityManager.createQuery("select user from User user", User.class).getResultList();
 	}
 
 	@Override
@@ -32,12 +32,11 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void edit(int id, User user) {
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		User updateUser = entityManager.find(User.class, id);
 		updateUser.setName(user.getName());
 		updateUser.setAge(user.getAge());
 		updateUser.setEmail(user.getEmail());
-
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		updateUser.setUpdatedAt(timestamp);
 	}
 

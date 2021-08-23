@@ -1,7 +1,5 @@
 package ru.krylov.web.model;
 
-
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
@@ -14,16 +12,22 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-//	@NotEmpty(message = "Name should not be empty")
-//	@Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters!")
+	@Column(nullable = false, length = 50)
+	@NotNull
+	@NotBlank(message = "Name should not be empty")
+	@Size(min = 1, max = 50, message = "Name should be between 1 and 50 characters")
 	private String name;
 
-//	@Min(value = 1, message = "Age should not be less than 1")
-//	@Max(value = 100, message = "Age should not be greater than 100")
+	@Column(nullable = false)
+	@NotNull
+	@Min(value = 1, message = "Age should be more than 1")
+	@Max(value = 100, message = "Age should be less than 100")
 	private byte age;
 
-//	@NotEmpty(message = "Email should not be empty")
-//	@Email(message = "Email should be valid")
+	@Column(nullable = false, length = 80)
+	@NotNull
+	@Email(message = "The email is not valid! (need xxxxx@xxxx.xx)")
+	@Size(min = 5, max = 80, message = "Email should be between 5 and 80 characters")
 	private String email;
 
 	private Timestamp createdAt;
@@ -34,7 +38,6 @@ public class User {
 	}
 
 	public User(String name, int age, String email) {
-		this.id = id;
 		this.name = name;
 		this.age = (byte) age;
 		this.email = email;
@@ -98,16 +101,21 @@ public class User {
 
 	@Override
 	public int hashCode() {
+
 		int result = 37;
 		result = 37 * result + id;
 		result = 37 * result + ((name == null) ? 0 : name.hashCode());
 		result = 37 * result + ((email == null) ? 0 : email.hashCode());
 		result = 37 * result + (int) age;
+		result = 37 * result + createdAt.hashCode();
+		result = 37 * result + updatedAt.hashCode();
+
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
+
 		if (this == obj) {
 			return true;
 		}
@@ -115,19 +123,25 @@ public class User {
 			return false;
 		}
 		User other = (User) obj;
+
 		return (id == other.id) &&
 				name.equals(other.name) &&
 				(age == other.age) &&
+				createdAt.equals(other.createdAt) &&
+				updatedAt.equals(other.updatedAt) &&
 				email.equals(other.email);
 	}
 
 	@Override
 	public String toString() {
+
 		return "User [" +
 				"id: " + id +
 				", name: " + name +
 				", age: " 	+ age +
 				", email: " + email +
+				", created at: " + createdAt +
+				", updated at: " + updatedAt +
 				']';
 	}
 }
