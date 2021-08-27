@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:db.properties")
+@PropertySource ("classpath:db.properties")
 @EnableTransactionManagement
 public class DBConfig {
 
