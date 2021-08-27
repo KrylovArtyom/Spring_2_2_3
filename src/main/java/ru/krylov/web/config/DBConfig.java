@@ -39,6 +39,7 @@ public class DBConfig {
 		return dataSource;
 	}
 
+
 	private Properties getProperties() {
 		Properties prop = new Properties();
 		prop.put("dialect", env.getProperty("dialect"));

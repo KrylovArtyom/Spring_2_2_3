@@ -32,6 +32,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void edit(int id, User user) {
+//		entityManager.persist(user);
+//		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		entityManager.find(User.class, id).setUpdatedAt(timestamp);
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		User updateUser = entityManager.find(User.class, id);
 		updateUser.setName(user.getName());
