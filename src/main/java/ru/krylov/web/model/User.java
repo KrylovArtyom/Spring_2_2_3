@@ -1,5 +1,8 @@
 package ru.krylov.web.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
@@ -30,7 +33,11 @@ public class User {
 	@Size(min = 5, max = 80, message = "Email should be between 5 and 80 characters")
 	private String email;
 
+	@CreationTimestamp
+	@Column(updatable = false)
 	private Timestamp createdAt;
+
+	@UpdateTimestamp
 	private Timestamp updatedAt;
 
 	public User() {
@@ -42,14 +49,6 @@ public class User {
 		this.age = (byte) age;
 		this.email = email;
 	}
-
-	public User(String name, byte age, String email, Timestamp createdAt) {
-		this.name = name;
-		this.age = age;
-		this.email = email;
-		this.createdAt = createdAt;
-	}
-
 
 	public int getId() {
 		return id;

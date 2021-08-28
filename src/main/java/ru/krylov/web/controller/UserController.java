@@ -11,7 +11,7 @@ import ru.krylov.web.service.UserService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping ("/users")
 public class UserController {
 
 	private final UserService userService;
@@ -21,18 +21,18 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@GetMapping()
+	@GetMapping
 	public String users(Model model) {
 		model.addAttribute("users", userService.allUsers());
 		return "users/users";
 	}
 
-	@GetMapping("/newUser")
+	@GetMapping ("/newUser")
 	public String newUser(@ModelAttribute("user") User user) {
 		return "users/newUser";
 	}
 
-	@PostMapping()
+	@PostMapping
 	public String createUser(@ModelAttribute("user") @Valid User user,
 							 BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -42,24 +42,23 @@ public class UserController {
 		return "redirect:/users";
 	}
 
-	@GetMapping("/{id}/editUser")
+	@GetMapping ("/{id}/editUser")
 	public String editUser(@PathVariable("id") int id, Model model) {
 		model.addAttribute("user", userService.getById(id));
 		return "users/editUser";
 	}
 
-	@PatchMapping("/{id}")
+	@PatchMapping ("/{id}")
 	public String updateUser(@ModelAttribute("user") @Valid User user,
-							 BindingResult bindingResult,
-							 @PathVariable("id") int id) {
+							 BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "users/editUser";
 		}
-		userService.edit(id, user);
+		userService.edit(user);
 		return "redirect:/users";
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping ("/{id}")
 	public String delete(@PathVariable("id") int id) {
 		userService.delete(id);
 		return "redirect:/users";

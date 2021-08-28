@@ -20,9 +20,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void add(User user) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		User newUser = new User(user.getName(), user.getAge(), user.getEmail(), timestamp);
-		entityManager.merge(newUser);
+		entityManager.persist(user);
 	}
 
 	@Override
@@ -31,13 +29,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void edit(int id, User user) {
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		User updateUser = entityManager.find(User.class, id);
-		updateUser.setName(user.getName());
-		updateUser.setAge(user.getAge());
-		updateUser.setEmail(user.getEmail());
-		updateUser.setUpdatedAt(timestamp);
+	public void edit(User user) {
+		entityManager.merge(user);
 	}
 
 	@Override
