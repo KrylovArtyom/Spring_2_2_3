@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import ru.krylov.web.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
