@@ -30,7 +30,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 	}
 
 
-	//filter hidden patch bla bla
+	//filter hidden path on http request
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		super.onStartup(servletContext);
