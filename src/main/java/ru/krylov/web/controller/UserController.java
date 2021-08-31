@@ -21,6 +21,11 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	@GetMapping ("/login")
+	public String loginPage() {
+		return "users/login";
+	}
+
 	@GetMapping
 	public String users(Model model) {
 		model.addAttribute("users", userService.allUsers());
