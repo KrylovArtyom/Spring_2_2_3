@@ -11,7 +11,7 @@ import ru.krylov.web.service.UserService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping ("/users")
+@RequestMapping ("/")
 public class UserController {
 
 	private final UserService userService;
@@ -43,7 +43,7 @@ public class UserController {
 			return "users/newUser";
 		}
 		userService.add(user);
-		return "redirect:/users";
+		return "redirect:/users/users";
 	}
 
 	@GetMapping ("/{id}/editUser")
@@ -58,12 +58,17 @@ public class UserController {
 			return "users/editUser";
 		}
 		userService.edit(user);
-		return "redirect:/users";
+		return "redirect:/users/users";
 	}
 
 	@DeleteMapping ("/{id}")
 	public String delete(@PathVariable("id") int id) {
 		userService.delete(id);
-		return "redirect:/users";
+		return "redirect:/users/users";
+	}
+
+	@GetMapping ("/login")
+	public String loginPage() {
+		return "authentication/login";
 	}
 }
