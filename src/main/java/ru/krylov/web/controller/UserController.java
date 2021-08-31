@@ -11,7 +11,7 @@ import ru.krylov.web.service.UserService;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping ("/")
+@RequestMapping("/users")
 public class UserController {
 
 	private final UserService userService;
@@ -19,11 +19,6 @@ public class UserController {
 	@Autowired
 	public UserController(UserService userService) {
 		this.userService = userService;
-	}
-
-	@GetMapping ("/login")
-	public String loginPage() {
-		return "users/login";
 	}
 
 	@GetMapping
@@ -34,7 +29,7 @@ public class UserController {
 
 	@GetMapping ("/newUser")
 	public String newUser(@ModelAttribute("user") User user) {
-		return "users/newUser";
+		return "/users/newUser";
 	}
 
 	@PostMapping
@@ -43,10 +38,10 @@ public class UserController {
 			return "users/newUser";
 		}
 		userService.add(user);
-		return "redirect:/users/users";
+		return "redirect:/users";
 	}
 
-	@GetMapping ("/{id}/editUser")
+	@GetMapping ("{id}/editUser")
 	public String editUser(@PathVariable("id") int id, Model model) {
 		model.addAttribute("user", userService.getById(id));
 		return "users/editUser";
@@ -58,17 +53,17 @@ public class UserController {
 			return "users/editUser";
 		}
 		userService.edit(user);
-		return "redirect:/users/users";
+		return "redirect:/users";
 	}
 
 	@DeleteMapping ("/{id}")
 	public String delete(@PathVariable("id") int id) {
 		userService.delete(id);
-		return "redirect:/users/users";
+		return "redirect:/users";
 	}
 
 	@GetMapping ("/login")
 	public String loginPage() {
-		return "authentication/login";
+		return "users/login";
 	}
 }
