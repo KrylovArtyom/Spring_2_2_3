@@ -30,6 +30,9 @@ public class User implements UserDetails {
 	@Column (nullable = false, length = 50)
 	private String password;
 
+	@Transient
+	private String passwordConfirm;
+
 	@Column(nullable = false, length = 50)
 	@NotNull
 	@NotBlank(message = "Name should not be empty")
@@ -55,24 +58,11 @@ public class User implements UserDetails {
 	@UpdateTimestamp
 	private Timestamp updatedAt;
 
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable (name = "t_user_role",
-			joinColumns = @JoinColumn(name = "t_role_id"),
-			inverseJoinColumns = @JoinColumn(name = "t_user_id"))
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
 
-	}
-	public User(String name, byte age, String email, Timestamp createdAt, Timestamp updatedAt, String username, String password, Set<Role> roles) {
-		this.name = name;
-		this.age = age;
-		this.email = email;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.username = username;
-		this.password = password;
-		this.roles = roles;
 	}
 
 	public int getId() {
@@ -122,6 +112,12 @@ public class User implements UserDetails {
 	}
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	@Override

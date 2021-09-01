@@ -17,19 +17,6 @@
     </style>
 </head>
 <body>
-<table>
-    <tr><th>1223213</th></tr>
-    <div th:each="user : ${users}">
-        <tr>
-            <td>
-                <div th:each="role: ${user.getRoles()}">
-                    <span th:if="(${role.getName()} == 'ROLE_ADMIN')" th:utext="Администратор"></span>
-                    <span th:if="(${role.getName()} == 'ROLE_USER')" th:utext="юзер"></span>
-                </div>
-            </td>
-        </tr>
-    </div>
-</table>
 
 </table>
 <table>
@@ -54,7 +41,7 @@
             <td th:text="${user.name}"/>
             <td th:text="${user.age}"/>
             <td th:text="${user.email}"/>
-            <td th:text="${user.getRoles()}"/>
+            <td th:colspan="2" th:text="${user.roles}"/>
             <td th:text="${user.createdAt}"/>
             <td th:text="${user.updatedAt}"/>
             <td>

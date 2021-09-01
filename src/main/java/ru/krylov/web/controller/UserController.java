@@ -61,9 +61,4 @@ public class UserController {
 		userService.delete(id);
 		return "redirect:/users";
 	}
-
-	@GetMapping ("/login")
-	public String loginPage() {
-		return "users/login";
-	}
 }
