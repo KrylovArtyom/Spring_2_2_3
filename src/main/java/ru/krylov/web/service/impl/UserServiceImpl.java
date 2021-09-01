@@ -1,10 +1,11 @@
-package ru.krylov.web.service;
+package ru.krylov.web.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.krylov.web.dao.UserDAO;
 import ru.krylov.web.model.User;
+import ru.krylov.web.service.UserService;
 
 import java.util.List;
 

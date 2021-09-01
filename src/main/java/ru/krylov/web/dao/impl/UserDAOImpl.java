@@ -1,6 +1,7 @@
-package ru.krylov.web.dao;
+package ru.krylov.web.dao.impl;
 
 import org.springframework.stereotype.Repository;
+import ru.krylov.web.dao.UserDAO;
 import ru.krylov.web.model.User;
 
 import javax.persistence.EntityManager;

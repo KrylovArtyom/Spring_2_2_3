@@ -41,17 +41,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.antMatchers("/users/**").permitAll()
-				.anyRequest().authenticated()
-				.and()
-			.formLogin()
-				.loginPage("/login")
-				.permitAll()
-				.and()
-			.logout()
-				.permitAll();
+		http.formLogin()
+			.loginPage("/login")
+			.successHandler(loginSuccessHandler);
+
+		http.logout()
+			.permitAll()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutSuccessUrl("/login?logout")
+			.and().csrf().disable();
+
+		http.authorizeRequests()
+			.antMatchers("/login").anonymous()
+			.antMatchers("/hello").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
 	}
 
 	@Bean

@@ -1,6 +1,5 @@
 package ru.krylov.web.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.krylov.web.model.User;
 
 import java.util.List;

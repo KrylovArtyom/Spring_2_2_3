@@ -1,6 +1,7 @@
-package ru.krylov.web.dao;
+package ru.krylov.web.dao.impl;
 
 import org.springframework.stereotype.Repository;
+import ru.krylov.web.dao.RoleDAO;
 import ru.krylov.web.model.Role;
 
 import javax.persistence.EntityManager;
@@ -15,11 +16,13 @@ public class RoleDAOImpl implements RoleDAO {
 
 	@Override
 	public Role getRoleByName(String name) {
-		return entityManager.find(Role.class, name);
+		return entityManager.createQuery("select role from Role role where role.name=:name", Role.class)
+				.setParameter("name", name)
+				.getSingleResult();
 	}
 
 	@Override
-	public Role getRoleById(Long id) {
+	public Role getRoleById(int id) {
 		return entityManager.find(Role.class, id);
 	}
 
