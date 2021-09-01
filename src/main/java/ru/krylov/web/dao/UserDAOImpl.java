@@ -2,6 +2,7 @@ package ru.krylov.web.dao;
 
 import org.springframework.stereotype.Repository;
 import ru.krylov.web.model.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -36,4 +37,10 @@ public class UserDAOImpl implements UserDAO {
 	public User getById(int id) {
 		return entityManager.find(User.class, id);
 	}
+
+	@Override
+	public User getByUsername(String username) {
+		return entityManager.find(User.class, username);
+	}
+
 }

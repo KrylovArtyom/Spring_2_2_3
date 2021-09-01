@@ -9,14 +9,26 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "t_user")
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Size(min = 2, max = 50, message = "Username should be between 2 and 50 characters")
+	@NotNull
+	@Column (nullable = false, unique = true, length = 50)
+	private String username;
+
+	@NotNull
+	@Size(min = 2, max = 50, message = "Password should be between 2 and 50 characters")
+	@Column (nullable = false, length = 50)
+	private String password;
 
 	@Column(nullable = false, length = 50)
 	@NotNull
@@ -43,62 +55,102 @@ public class User {
 	@UpdateTimestamp
 	private Timestamp updatedAt;
 
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable (name = "t_user_role",
+			joinColumns = @JoinColumn(name = "t_role_id"),
+			inverseJoinColumns = @JoinColumn(name = "t_user_id"))
+	private Set<Role> roles = new HashSet<>();
+
 	public User() {
 
 	}
-
-	public User(String name, int age, String email) {
+	public User(String name, byte age, String email, Timestamp createdAt, Timestamp updatedAt, String username, String password, Set<Role> roles) {
 		this.name = name;
-		this.age = (byte) age;
+		this.age = age;
 		this.email = email;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.username = username;
+		this.password = password;
+		this.roles = roles;
 	}
 
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public byte getAge() {
 		return age;
 	}
-
 	public void setAge(byte age) {
 		this.age = age;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
-
 	public Timestamp getUpdatedAt() {
 		return updatedAt;
 	}
-
 	public void setUpdatedAt(Timestamp updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return getRoles();
+	}
+	@Override
+	public String getPassword() {
+		return password;
+	}
+	@Override
+	public String getUsername() {
+		return username;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 	@Override
@@ -114,7 +166,6 @@ public class User {
 
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 
@@ -133,15 +184,17 @@ public class User {
 				updatedAt.equals(other.updatedAt) &&
 				email.equals(other.email);
 	}
-
 	@Override
 	public String toString() {
 
 		return "User [" +
 				"id: " + id +
+				", username: " + username +
+				", password: " + password +
 				", name: " + name +
 				", age: " 	+ age +
 				", email: " + email +
+				", roles: " + roles +
 				", created at: " + createdAt +
 				", updated at: " + updatedAt +
 				']';

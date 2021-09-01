@@ -1,6 +1,8 @@
 package ru.krylov.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.krylov.web.dao.UserDAO;
@@ -44,5 +46,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional (readOnly = true)
 	public User getById(int id) {
 		return userDAO.getById(id);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+		return userDAO.getByUsername(s);
 	}
 }
