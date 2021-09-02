@@ -8,33 +8,58 @@
 <div th:fragment="content">
     <fieldset>
         <legend> Form to create new user</legend>
-        <form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
+        <form th:method="POST"
+              th:action="@{/admin/users}"
+              th:object="${user}">
 
             <label for="username">Username</label>
             <input type="text" th:field="*{username}" id="username"/>
-            <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+            <div style="color:red"
+                 th:if="${#fields.hasErrors('username')}"
+                 th:errors="*{username}">Username Error
+            </div>
             <br/>
             <label for="password">Password</label>
             <input type="text" th:field="*{password}" id="password"/>
-            <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+            <div style="color:red"
+                 th:if="${#fields.hasErrors('password')}"
+                 th:errors="*{password}">Password Error
+            </div>
             <br/>
 
             <label for="name">Name</label>
             <input type="text" th:field="*{name}" id="name"/>
-            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
+            <div style="color:red"
+                 th:if="${#fields.hasErrors('name')}"
+                 th:errors="*{name}">Name Error
+            </div>
             <br/>
             <label for="age">Age</label>
             <input type="text" th:field="*{age}" id="age"/>
-            <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
+            <div style="color:red"
+                 th:if="${#fields.hasErrors('age')}"
+                 th:errors="*{age}">Age Error
+            </div>
             <br/>
             <label for="email">Email</label>
             <input type="text" th:field="*{email}" id="email"/>
-            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+            <div style="color:red"
+                 th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}">Email Error
+            </div>
+            <br/>
+
+            <select class="form-control" multiple="multiple" name="index">
+                <option th:each="r : ${allRoles}"
+                        th:value="${r.id}"
+                        th:text="${r.name}"></option>
+            </select>
 
             <br/>
             <input type="submit" value="Create">
 
         </form>
+        <br/>
         <form th:method="GET" th:action="@{/logout}">
             <input type="submit" value="LOGOUT"/>
         </form>
