@@ -47,4 +47,10 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getById(id);
 	}
 
+	@Override
+	@Transactional (readOnly = true)
+	public User getByUsername(String username) {
+		return userDAO.getByUsername(username);
+	};
+
 }

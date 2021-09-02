@@ -32,7 +32,7 @@ public class AdminController {
 		return "admin/newUser";
 	}
 
-	@PostMapping
+	@PostMapping("/users")
 	public String createUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return "admin/newUser";

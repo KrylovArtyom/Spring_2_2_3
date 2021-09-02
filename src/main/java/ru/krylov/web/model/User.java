@@ -65,6 +65,14 @@ public class User implements UserDetails {
 
 	}
 
+	public User(String username, String password, String name, byte age, String email) {
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.age = age;
+		this.email = email;
+	}
+
 	public int getId() {
 		return id;
 	}

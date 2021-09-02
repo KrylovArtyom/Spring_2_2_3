@@ -18,48 +18,57 @@
 </head>
 <body>
 
+<div th:fragment="content">
+    <fieldset>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Action</th>
+            </tr>
 
-<table>
-    <tr>
-        <th>id</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Email</th>
-        <th>Roles</th>
-        <th>Created At</th>
-        <th>Updated At</th>
-        <th>Action</th>
-    </tr>
+            <div th:each="user : ${users}">
+                <tr>
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.password}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.age}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <div th:each="role : ${user.roles}" th:text="${role.getName()}"></div>
+                    </td>
+                    <td th:text="${user.createdAt}"></td>
+                    <td th:text="${user.updatedAt}"></td>
+                    <td>
+                        <form th:method="GET" th:action="@{/admin/{id}/editUser(id=${user.id})}">
+                            <input type="submit" value="Edit"/>
+                        </form>
+                        <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.id})}">
+                            <input type="submit" value="Delete"/>
+                        </form>
+                    </td>
+                </tr>
+            </div>
+        </table>
+        <br/>
 
-    <div th:each="user : ${users}">
-        <tr>
-            <td th:text="${user.id}"/>
-            <td th:text="${user.username}"/>
-            <td th:text="${user.password}"/>
-            <td th:text="${user.name}"/>
-            <td th:text="${user.age}"/>
-            <td th:text="${user.email}"/>
-            <td th:colspan="2" th:text="${user.roles}"/>
-            <td th:text="${user.createdAt}"/>
-            <td th:text="${user.updatedAt}"/>
-            <td>
-                <form th:method="GET" th:action="@{/admin/{id}/editUser(id=${user.id})}">
-                    <input type="submit" value="Edit" />
-                </form>
-                <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.id})}">
-                    <input type="submit" value="Delete" />
-                </form>
-                <form th:method="GET" th:action="@{/admin/{id}(id=${user.id})}">
-                    <input type="submit" value="Delete" />
-                </form>
-            </td>
-        </tr>
-    </div>
-</table>
+        <form th:method="GET" th:action="@{/admin/newUser}">
+            <input type="submit" value="Create new user"/>
+        </form>
+        <br/>
+        <form th:method="GET" th:action="@{/logout}">
+            <input type="submit" value="LOGOUT"/>
+        </form>
 
-<h2><a href="/admin/newUser">Create new user</a></h2>
-
+    </fieldset>
+</div>
 </body>
 </html>
