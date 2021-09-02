@@ -4,7 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin panel</title>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid #000;
+        }
+        th, td {
+            width: 25%;
+            text-align: left;
+            vertical-align: top;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    </style>
 </head>
+
 <body>
 
 <div th:fragment="content">
@@ -53,9 +68,8 @@
         <form th:method="GET" th:action="@{/admin/newUser}">
             <input type="submit" value="Create new user"/>
         </form>
-        <br/>
         <form th:method="GET" th:action="@{/logout}">
-            <input type="submit" value="LOGOUT"/>
+            <input type="submit" value="LOGOUT" style="float: right;"/>
         </form>
 
     </fieldset>

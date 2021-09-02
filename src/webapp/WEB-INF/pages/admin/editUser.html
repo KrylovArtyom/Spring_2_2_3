@@ -42,13 +42,13 @@
                 <option th:each="r : ${allRoles}"
                         th:value="${r.id}"
                         th:text="${r.name}"
-                        th:selected="${user.hasRole(r)}"></option>
+                        th:selected="${r.id == user.hasRole(r)}"></option>
             </select>
             <br>
             <input type="submit" value="Edit">
         </form>
         <form th:method="GET" th:action="@{/logout}">
-            <input type="submit" value="LOGOUT"/>
+            <input type="submit" value="LOGOUT" style="float: right;"/>
         </form>
     </fieldset>
 </div>

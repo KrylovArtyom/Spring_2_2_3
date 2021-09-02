@@ -9,26 +9,26 @@
     <fieldset>
         <legend> Hello!!!!</legend>
         <label for="name">Username: </label>
-        <tr th:text="${user.username}" id="username"/>
+        <tr th:text="${user.username}" id="username"></tr>
         <br/><br/>
 
         <label for="name">Password: </label>
-        <tr th:text="${user.password}" id="password"/>
+        <tr th:text="${user.password}" id="password"></tr>
         <br/><br/>
 
         <label for="name">Name: </label>
-        <tr th:text="${user.name}" id="name"/>
+        <tr th:text="${user.name}" id="name"></tr>
         <br/><br/>
 
         <label for="age">Age: </label>
-        <tr th:text="${user.age}" id="age"/>
+        <tr th:text="${user.age}" id="age"></tr>
         <br/><br/>
 
         <label for="email">email: </label>
-        <tr th:text="${user.email}" id="email"/>
+        <tr th:text="${user.email}" id="email"></tr>
         <br/><br/>
         <form th:method="GET" th:action="@{/logout}">
-            <input type="submit" value="LOGOUT"/>
+            <input type="submit" value="LOGOUT" style="float: right;"/>
         </form>
     </fieldset>
 </div>
