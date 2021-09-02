@@ -7,6 +7,7 @@
 <body>
 <div th:fragment="content">
     <fieldset>
+        <legend> Form to create new user</legend>
         <form th:method="POST" th:action="@{/admin/users}" th:object="${user}">
 
             <label for="username">Username</label>
