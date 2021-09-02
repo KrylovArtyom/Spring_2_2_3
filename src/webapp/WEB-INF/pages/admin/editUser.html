@@ -42,7 +42,7 @@
                 <option th:each="r : ${allRoles}"
                         th:value="${r.id}"
                         th:text="${r.name}"
-                        th:selected="${r.id == user.hasRole(r)}"></option>
+                        th:selected="${user.hasRole(r)}"></option>
             </select>
             <br>
             <input type="submit" value="Edit">
