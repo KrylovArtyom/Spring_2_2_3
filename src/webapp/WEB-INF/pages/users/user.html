@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>User page</title>
@@ -27,10 +29,14 @@
         <label for="email">email: </label>
         <tr th:text="${user.email}" id="email"></tr>
         <br/><br/>
+
         <form th:method="GET" th:action="@{/logout}">
             <input type="submit" value="LOGOUT" style="float: right;"/>
         </form>
     </fieldset>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        This content is only shown to administrators.
+    </div>
 </div>
 </body>
 </html>
