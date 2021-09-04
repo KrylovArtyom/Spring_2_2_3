@@ -31,7 +31,6 @@
             <input type="text" th:field="*{email}" id="email"/>
             <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
             <br/>
-
             <select class="form-control" multiple="multiple" name="index">
                 <option th:each="r : ${allRoles}" th:value="${r.id}" th:text="${r.name}"></option>
             </select>
@@ -42,7 +41,7 @@
         </form>
         <br/>
         <form th:method="GET" th:action="@{/logout}">
-            <input type="submit" value="LOGOUT"style="float: right;"/>
+            <input type="submit" value="LOGOUT" style="float: right;"/>
         </form>
     </fieldset>
 </div>

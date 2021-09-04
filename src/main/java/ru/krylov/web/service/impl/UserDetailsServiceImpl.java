@@ -10,8 +10,13 @@ import ru.krylov.web.model.User;
 
 @Service(value = "userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
+
+	private final UserDAO userDAO;
+
 	@Autowired
-	UserDAO userDAO;
+	public UserDetailsServiceImpl(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

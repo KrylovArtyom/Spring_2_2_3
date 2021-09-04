@@ -10,9 +10,9 @@ import java.util.List;
 
 @Repository
 public class RoleDAOImpl implements RoleDAO {
+
 	@PersistenceContext
 	private EntityManager entityManager;
-
 
 	@Override
 	public Role getRoleByName(String name) {

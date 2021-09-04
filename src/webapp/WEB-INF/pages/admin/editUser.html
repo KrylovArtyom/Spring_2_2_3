@@ -36,13 +36,12 @@
             <br/><br/>
 
             <br>
-            <select class="form-control"
-                    multiple="multiple"
-                    name="index">
-                <option th:each="r : ${allRoles}"
-                        th:value="${r.id}"
-                        th:text="${r.name}"
-                        th:selected="${user.hasRole(r)}"></option>
+            <select class="form-control" multiple="multiple" name="index">
+                    <option th:each="role : ${allRoles}"
+                            th:value="${role.id}"
+                            th:text="${role.name}"
+                            th:selected="${user.hasRole(role)}">
+                    </option>
             </select>
             <br>
             <input type="submit" value="Edit">

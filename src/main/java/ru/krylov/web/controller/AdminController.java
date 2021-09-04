@@ -12,6 +12,7 @@ import ru.krylov.web.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -61,8 +62,13 @@ public class AdminController {
 	@GetMapping ("{id}/editUser")
 	public String editUser(@PathVariable("id") int id,
 						   Model model) {
-		model.addAttribute("user", userService.getById(id));
-		model.addAttribute("allRoles", roleService.allRoles());
+		List<Role> blabla = roleService.allRoles();
+		User hyuzer = userService.getById(id);
+		model.addAttribute("user", hyuzer);
+		Set<Role> blyablya = hyuzer.getRoles();
+		blyablya.forEach(x-> System.out.println(x.getName()));
+		model.addAttribute("allRoles", blabla);
+		blabla.forEach(x-> System.out.println(x.getName()));
 		return "admin/editUser";
 	}
 

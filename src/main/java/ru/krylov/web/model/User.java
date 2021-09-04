@@ -134,6 +134,7 @@ public class User implements UserDetails {
 	public boolean hasRole(Role role) {
 		return roles.contains(role);
 	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return getRoles();
