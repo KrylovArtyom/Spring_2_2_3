@@ -1,6 +1,5 @@
 package ru.krylov.web.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +25,20 @@ public class DBConfig {
 
 	private final Environment env;
 
-	@Autowired
 	public DBConfig(Environment env) {
 		this.env = env;
+	}
+
+	private Properties getProperties() {
+		Properties prop = new Properties();
+		prop.put("dialect", env.getProperty("dialect"));
+		prop.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+		prop.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+		prop.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+		prop.put("current_session_context_class", env.getProperty("current_session_context_class"));
+		prop.put("hibernate.enable_lazy_load_no_trans", true);
+
+		return prop;
 	}
 
 	@Bean
@@ -40,18 +50,6 @@ public class DBConfig {
 		dataSource.setPassword(env.getProperty("db.password"));
 
 		return dataSource;
-	}
-
-
-	private Properties getProperties() {
-		Properties prop = new Properties();
-		prop.put("dialect", env.getProperty("dialect"));
-		prop.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-		prop.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-		prop.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-		prop.put("current_session_context_class", env.getProperty("current_session_context_class"));
-
-		return prop;
 	}
 
 	@Bean

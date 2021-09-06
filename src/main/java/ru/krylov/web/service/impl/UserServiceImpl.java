@@ -15,40 +15,42 @@ public class UserServiceImpl implements UserService {
 
 	private final UserDAO userDAO;
 
-	@Autowired
 	public UserServiceImpl(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
 
 	@Override
-	@Transactional (readOnly = true)
+	@Transactional(readOnly = true)
 	public List<User> allUsers() {
 		return userDAO.allUsers();
 	}
 
 	@Override
+	@Transactional
 	public void add(User user) {
 		userDAO.add(user);
 	}
 
 	@Override
+	@Transactional
 	public void delete(int id) {
 		userDAO.delete(id);
 	}
 
 	@Override
+	@Transactional
 	public void edit(User user) {
 		userDAO.edit(user);
 	}
 
 	@Override
-	@Transactional (readOnly = true)
+	@Transactional(readOnly = true)
 	public User getById(int id) {
 		return userDAO.getById(id);
 	}
 
 	@Override
-	@Transactional (readOnly = true)
+	@Transactional(readOnly = true)
 	public User getByUsername(String username) {
 		return userDAO.getByUsername(username);
 	};

@@ -15,27 +15,30 @@ public class RoleServiceImpl implements RoleService {
 
 	private final RoleDAO roleDAO;
 
-	@Autowired
 	public RoleServiceImpl(RoleDAO roleDAO) {
 		this.roleDAO = roleDAO;
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Role getRoleByName(String name) {
 		return roleDAO.getRoleByName(name);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Role getRoleById(int id) {
 		return roleDAO.getRoleById(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Role> allRoles() {
 		return roleDAO.allRoles();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Role getDefaultRole() {
 		return roleDAO.getDefaultRole();
 	}

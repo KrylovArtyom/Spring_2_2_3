@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table (name = "t_roles")
+@Table (name = "roles")
 public class Role implements GrantedAuthority {
 
 	@Id
@@ -48,5 +48,36 @@ public class Role implements GrantedAuthority {
 	@Override
 	public String getAuthority() {
 		return getName();
+	}
+
+	@Override
+	public int hashCode() {
+
+		int result = 37;
+		result = 37 * result + id;
+		result = 37 * result + ((name == null) ? 0 : name.hashCode());
+
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj) {
+			return true;
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
+			return false;
+		}
+		Role other = (Role) obj;
+
+		return ((id == other.id) && name.equals(other.name));
+	}
+	@Override
+	public String toString() {
+
+		return "Role [" +
+				"id: " + id +
+				", name: " + name +
+				']';
 	}
 }

@@ -2,8 +2,6 @@ package ru.krylov.web.config.handler;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +19,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 										Authentication authentication) throws IOException {
 
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-		if (roles.contains("ROLE_USER") && !roles.contains("ROLE_ADMIN")) {
-			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			String username = ((UserDetails) principal).getUsername();
-			httpServletResponse.sendRedirect("/" + username);
-		}
 		if (roles.contains("ROLE_ADMIN")) {
-			httpServletResponse.sendRedirect("/admin/users");
+			httpServletResponse.sendRedirect("/admin/allUsers");
+		}
+		if (roles.contains("ROLE_USER") && !roles.contains("ROLE_ADMIN")) {
+			httpServletResponse.sendRedirect("/user");
 		}
 	}
 }

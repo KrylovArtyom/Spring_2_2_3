@@ -1,6 +1,5 @@
 package ru.krylov.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +12,6 @@ import ru.krylov.web.service.UserService;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -21,45 +19,45 @@ public class AdminController {
 	private final UserService userService;
 	private final RoleService roleService;
 
-	@Autowired
 	public AdminController(UserService userService, RoleService roleService) {
 		this.userService = userService;
 		this.roleService = roleService;
 	}
 
-	@GetMapping("/users")
-	public String users(Model model) {
+	@GetMapping("/allUsers")
+	public String getAllUsers(Model model) {
 		model.addAttribute("users", userService.allUsers());
-		return "admin/users";
+		return "admin/allUsers";
 	}
 
-	@GetMapping ("/newUser")
-	public String newUser(@ModelAttribute("user") User user,
+	@GetMapping ("/addUser")
+	public String addUser(@ModelAttribute("user") User user,
 						  Model model) {
 		List<Role> roles = roleService.allRoles();
 		model.addAttribute("allRoles", roles);
-		return "admin/newUser";
+		return "admin/addUser";
 	}
 
-	@PostMapping("/users")
-	public String createUser(@ModelAttribute("user") @Valid User user,
+	@PostMapping("/addUser")
+	public String addUser(@ModelAttribute("user") @Valid User user,
 							 BindingResult bindingResult,
-							 @RequestParam(value = "index", required = false) Integer[] index,
+							 @RequestParam(value = "roleId", required = false) Integer[] roleId,
 							 Model model) {
 		model.addAttribute("allRoles", roleService.allRoles());
+
 		if (bindingResult.hasErrors()) {
-			return "admin/newUser";
+			return "admin/addUser";
 		}
-		if (index != null) {
-			for (Integer i : index) {
+		if (roleId != null) {
+			for (Integer i : roleId) {
 				user.addRole(roleService.getRoleById(i));
 			}
 		}
 		userService.add(user);
-		return "redirect:/admin/users";
+		return "redirect:/admin/allUsers";
 	}
 
-	@GetMapping ("{id}/editUser")
+	@GetMapping ("/editUser/{id}")
 	public String editUser(@PathVariable("id") int id,
 						   Model model) {
 
@@ -69,25 +67,25 @@ public class AdminController {
 		return "admin/editUser";
 	}
 
-	@PatchMapping ("{id}")
-	public String updateUser(@ModelAttribute("user") @Valid User user,
+	@PatchMapping ("/editUser/{id}")
+	public String editUser(@ModelAttribute("user") @Valid User user,
 							 BindingResult bindingResult,
-							 @RequestParam(value = "index", required = false) Integer[] index) {
+							 @RequestParam(value = "roleId", required = false) Integer[] roleId) {
 		if (bindingResult.hasErrors()) {
 			return "admin/editUser";
 		}
-		if (index != null) {
-			for (Integer i : index) {
+		if (roleId != null) {
+			for (Integer i : roleId) {
 				user.addRole(roleService.getRoleById(i));
 			}
 		}
 		userService.edit(user);
-		return "redirect:/admin/users";
+		return "redirect:/admin/allUsers";
 	}
 
-	@DeleteMapping ("/{id}")
-	public String delete(@PathVariable("id") int id) {
+	@DeleteMapping ("/delete/{id}")
+	public String deleteUser(@PathVariable("id") int id) {
 		userService.delete(id);
-		return "redirect:/admin/users";
+		return "redirect:/admin/allUsers";
 	}
 }

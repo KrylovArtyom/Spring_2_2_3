@@ -9,7 +9,7 @@
 <div th:fragment="content">
     <fieldset>
         <legend> Edit user</legend>
-        <form th:method="PATCH" th:action="@{/admin/{id}(id=${user.getId()})}" th:object="${user}">
+        <form th:method="PATCH" th:action="@{/admin/editUser/{id}(id=${user.getId()})}" th:object="${user}">
             <label for="username">Username</label>
             <input type="text" th:field="*{username}" id="username"/>
             <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username Error</div>
@@ -36,7 +36,7 @@
             <br/><br/>
 
             <br>
-            <select class="form-control" multiple="multiple" name="index">
+            <select class="form-control" multiple="multiple" name="roleId">
                     <option th:each="role : ${allRoles}"
                             th:value="${role.id}"
                             th:text="${role.name}"

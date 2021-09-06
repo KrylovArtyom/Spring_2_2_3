@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "t_user")
+@Table(name = "users")
 public class User implements UserDetails {
 
 	@Id
@@ -34,7 +34,6 @@ public class User implements UserDetails {
 	private String passwordConfirm;
 
 	@Column(nullable = false, length = 50)
-	@NotNull
 	@NotBlank(message = "Name should not be empty")
 	@Size(min = 1, max = 50, message = "Name should be between 1 and 50 characters")
 	private String name;
@@ -58,7 +57,7 @@ public class User implements UserDetails {
 	@UpdateTimestamp
 	private Timestamp updatedAt;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
@@ -171,6 +170,7 @@ public class User implements UserDetails {
 		result = 37 * result + id;
 		result = 37 * result + ((name == null) ? 0 : name.hashCode());
 		result = 37 * result + ((email == null) ? 0 : email.hashCode());
+		result = 37 * result + username.hashCode();
 		result = 37 * result + (int) age;
 		result = 37 * result + createdAt.hashCode();
 		result = 37 * result + updatedAt.hashCode();
@@ -190,6 +190,7 @@ public class User implements UserDetails {
 
 		return (id == other.id) &&
 				name.equals(other.name) &&
+				username.equals(other.username) &&
 				(age == other.age) &&
 				createdAt.equals(other.createdAt) &&
 				updatedAt.equals(other.updatedAt) &&

@@ -53,10 +53,10 @@
                     <td th:text="${user.createdAt}"></td>
                     <td th:text="${user.updatedAt}"></td>
                     <td>
-                        <form th:method="GET" th:action="@{/admin/{id}/editUser(id=${user.id})}">
+                        <form th:method="GET" th:action="@{/admin/editUser/{id}(id=${user.id})}">
                             <input type="submit" value="Edit"/>
                         </form>
-                        <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.id})}">
+                        <form th:method="DELETE" th:action="@{/admin/delete/{id}(id=${user.id})}">
                             <input type="submit" value="Delete"/>
                         </form>
                     </td>
@@ -65,7 +65,7 @@
         </table>
         <br/>
 
-        <form th:method="GET" th:action="@{/admin/newUser}">
+        <form th:method="GET" th:action="@{/admin/addUser}">
             <input type="submit" value="Create new user"/>
         </form>
         <form th:method="GET" th:action="@{/logout}">
