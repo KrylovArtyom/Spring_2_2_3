@@ -26,8 +26,8 @@ public class User implements UserDetails {
 	private String username;
 
 	@NotNull
-	@Size(min = 2, max = 50, message = "Password should be between 2 and 50 characters")
-	@Column (nullable = false, length = 50)
+	@Size(min = 2, max = 60, message = "Password should be between 2 and 50 characters")
+	@Column (nullable = false, length = 60)
 	private String password;
 
 	@Transient

@@ -1,6 +1,6 @@
 package ru.krylov.web.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.krylov.web.dao.UserDAO;
@@ -14,9 +14,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
 	private final UserDAO userDAO;
+	private final PasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(UserDAO userDAO) {
+	public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
 		this.userDAO = userDAO;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -28,6 +30,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void add(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDAO.add(user);
 	}
 
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void edit(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDAO.edit(user);
 	}
 
