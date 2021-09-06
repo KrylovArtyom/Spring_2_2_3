@@ -57,6 +57,5 @@ public class UserServiceImpl implements UserService {
 	@Transactional(readOnly = true)
 	public User getByUsername(String username) {
 		return userDAO.getByUsername(username);
-	};
-
+	}
 }
