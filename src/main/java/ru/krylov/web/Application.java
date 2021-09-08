@@ -8,8 +8,6 @@ import ru.krylov.web.dao.RoleDAO;
 import ru.krylov.web.dao.UserDAO;
 
 @SpringBootApplication
-@ComponentScan(basePackages="ru.krylov.web.config")
-@Import({UserDAO.class, RoleDAO.class})
 public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
