@@ -1,32 +1,71 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Login page</title>
+
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        html,
+        body {
+            height: 30%;
+        }
+
+        body {
+            display: flex;
+            align-items: start;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="username"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    </style>
 </head>
+
 <body>
-<div th:fragment="content">
-    <form name="f" th:action="@{/login}" method="post">
-        <fieldset>
-            <legend>   Please login</legend>
+<main class="form-signin">
+<form name="f" th:action="@{/login}" method="post">
+    <div th:fragment="content" class="row g-1">
+        <h1 class="h3 mb-3 fw-bold">Please sign in</h1>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="username" name="username" placeholder="username">
+            <label for="username">Username</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password" name="password" placeholder="password">
+            <label for="password">Password</label>
+        </div>
+        <div class="form-floating">
             <div th:if="${param.error}" class="alert alert-error">
                 Invalid username and password
             </div>
             <div th:if="${param.logout}" class="alert alert-success">
                 You have been logged out.
             </div>
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username">
-            </br>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            </br>
-            <div class="form-actions">
-                <button type="submit" class="btn">Log in</button>
-            </div>
-        </fieldset>
-    </form>
-</div>
+        </div>
+        <button type="submit" class="align-content-center w-100 btn btn-lg btn-primary">Sign in</button>
+   </div>
+</form>
+</main>
 </body>
 </html>
