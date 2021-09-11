@@ -28,55 +28,49 @@ public class AdminController {
 	@GetMapping("/allUsers")
 	public String getAllUsers(Model model) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.addAttribute("user", userService.getByUsername(username));
-
+		model.addAttribute("admin", userService.getByUsername(username));
 		model.addAttribute("users", userService.allUsers());
+		model.addAttribute("allRoles", roleService.allRoles());
 		return "admin/allUsers";
 	}
 
-	@GetMapping ("/addUser")
-	public String addUser(@ModelAttribute("user") User user,
-						  Model model) {
-		List<Role> roles = roleService.allRoles();
-		model.addAttribute("allRoles", roles);
-		return "admin/addUser";
-	}
 
-	@PostMapping("/addUser")
-	public String addUser(@ModelAttribute("user") @Valid User user,
-							 BindingResult bindingResult,
-							 @RequestParam(value = "roleId", required = false) Integer[] roleId,
-							 Model model) {
-		model.addAttribute("allRoles", roleService.allRoles());
 
+	@PostMapping("/newUser")
+	public String addUser(@ModelAttribute("newUser") @Valid User user, BindingResult bindingResult,
+						  @RequestParam(value = "roleId", required = false) Integer[] roleId) {
 		if (bindingResult.hasErrors()) {
-			return "admin/addUser";
+			return "admin/allUsers";
 		}
 		if (roleId != null) {
 			for (Integer i : roleId) {
 				user.addRole(roleService.getRoleById(i));
 			}
+		} else {
+			user.addRole(roleService.getDefaultRole());
 		}
 		userService.add(user);
 		return "redirect:/admin/allUsers";
 	}
 
-	@GetMapping ("/editUser/{id}")
+
+
+	@GetMapping ("/userEdit/{id}")
 	public String editUser(@PathVariable("id") int id,
 						   Model model) {
 
 		model.addAttribute("user", userService.getById(id));
 		model.addAttribute("allRoles", roleService.allRoles());
 
-		return "admin/editUser";
+		return "redirect:/admin/allUsers";
 	}
 
-	@PatchMapping ("/editUser/{id}")
+	@PatchMapping ("/userEdit/{id}")
 	public String editUser(@ModelAttribute("user") @Valid User user,
 							 BindingResult bindingResult,
 							 @RequestParam(value = "roleId", required = false) Integer[] roleId) {
 		if (bindingResult.hasErrors()) {
-			return "admin/editUser";
+			return "admin/userEdit/{id}";
 		}
 		if (roleId != null) {
 			for (Integer i : roleId) {
