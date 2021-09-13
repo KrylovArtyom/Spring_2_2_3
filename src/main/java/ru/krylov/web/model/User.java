@@ -22,7 +22,7 @@ public class User implements UserDetails {
 
 	@Size(min = 2, max = 50, message = "Username should be between 2 and 50 characters")
 	@NotNull
-	@Column (nullable = false, unique = true, length = 50)
+	@Column (nullable = false, length = 50)
 	private String username;
 
 	@NotNull
@@ -64,7 +64,8 @@ public class User implements UserDetails {
 
 	}
 
-	public User(String username, String password, String name, byte age, String email) {
+	public User(int id, String username, String password, String name, byte age, String email) {
+		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.name = name;

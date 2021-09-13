@@ -92,10 +92,7 @@
                                     <a class="btn btn-success eBtn" th:href="@{/admin/get/(id=${user.id})}">Edit</a>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-secondary btn-sm"
-                                            data-bs-toggle="modal" data-bs-target="deleteModal">
-                                        Delete
-                                    </button>
+                                    <a class="btn btn-danger dBtn" th:href="@{/admin/get/(id=${user.id})}">Delete</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -115,6 +112,11 @@
                                             </div>
                                             <div class="modal-body">
 
+                                                <div class="form-group">
+                                                    <label for="edit-id" class="col-form-label">ID</label>
+                                                    <input type="text" readonly class="form-control" id="edit-id"
+                                                           name="id">
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="edit-username" class="col-form-label">Username</label>
                                                     <input type="text" class="form-control" id="edit-username"
@@ -145,7 +147,7 @@
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                     Закрыть
                                                 </button>
-                                                <button type="submit" class="btn btn-primary">Add new user</button>
+                                                <button type="submit" class="btn btn-primary">Edit user</button>
                                             </div>
                                         </div>
                                     </div>
@@ -153,32 +155,56 @@
                                 </div>
                             </form>
                         </div>
+                        <!--Delete modal html-->
+                        <div class="deleteForm">
+                            <form th:method="DELETE" th:action="@{/admin/delete}">
+                                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="deleteModalLabel" aria-hidden="true">
 
-                        <div class="modal" id="deleteModal" tabindex="-1" role="dialog"
-                             aria-labelledby="deleteModalLabel" aria-hidden="true">
-                            <form method="post" th:action="@{/admin/delete}">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label for="delete-username" class="col-form-label">Username</label>
-                                                <input type="text" class="form-control" id="delete-username"
-                                                       name="usernameEdit">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="form-group">
+                                                    <label for="delete-id" class="col-form-label">ID</label>
+                                                    <input type="text" readonly class="form-control" id="delete-id"
+                                                           name="id">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="delete-username" class="col-form-label">Username</label>
+                                                    <input type="text" class="form-control" id="delete-username"
+                                                           name="username">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="delete-name" class="col-form-label">Name</label>
+                                                    <input type="text" class="form-control" id="delete-name" name="name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="delete-age" class="col-form-label">Age</label>
+                                                    <input type="text" class="form-control" id="delete-age" name="age">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="delete-email" class="col-form-label">Email</label>
+                                                    <input type="text" class="form-control" id="delete-email"
+                                                           name="email">
+                                                </div>
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Закрыть
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Edit user</button>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                Закрыть
-                                            </button>
-                                            <button type="button" class="btn btn-primary">Delete user</button>
-                                            <input type="hidden" name="id" id="delete-id-btn">
-                                        </div>
                                     </div>
+
                                 </div>
                             </form>
                         </div>
@@ -283,17 +309,37 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.table .eBtn').on('click', function (event) {
+
             event.preventDefault();
             var href = $(this).attr('href');
             $.get(href, function (data, status) {
 
+                $('.editForm #edit-id').val(data.id);
                 $('.editForm #edit-username').val(data.username);
                 $('.editForm #edit-password').val(data.password);
                 $('.editForm #edit-name').val(data.name);
                 $('.editForm #edit-age').val(data.age);
                 $('.editForm #edit-email').val(data.email);
             })
+
             $('.editForm #editModal').modal('show');
+
+        });
+
+        $('.table .dBtn').on('click', function (event) {
+
+            event.preventDefault();
+            var href = $(this).attr('href');
+            $.get(href, function (data, status) {
+
+                $('.deleteForm #delete-id').val(data.id);
+                $('.deleteForm #delete-username').val(data.username);
+                $('.deleteForm #delete-name').val(data.name);
+                $('.deleteForm #delete-age').val(data.age);
+                $('.deleteForm #delete-email').val(data.email);
+            })
+
+            $('.deleteForm #deleteModal').modal('show');
 
         });
     });

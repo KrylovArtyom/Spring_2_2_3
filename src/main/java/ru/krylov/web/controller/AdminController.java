@@ -33,7 +33,7 @@ public class AdminController {
 		return "admin/allUsers";
 	}
 
-	@PostMapping(value = "/addUser")
+	@PostMapping("/addUser")
 	public String addUser(@ModelAttribute("addUser") @Valid User user, BindingResult bindingResult,
 						  @RequestParam(value = "roleId", required = false) Integer[] roleId) {
 		if (roleId != null) {
@@ -50,7 +50,6 @@ public class AdminController {
 	@GetMapping("/get")
 	@ResponseBody
 	public User getUser(int id) {
-		System.out.println(userService.getById(id));
 		return userService.getById(id);
 	}
 
@@ -71,8 +70,8 @@ public class AdminController {
 	}
 
 
-	@DeleteMapping ("/delete/{id}")
-	public String deleteUser(@PathVariable("id") int id) {
+	@DeleteMapping ("/delete")
+	public String deleteUser(int id) {
 		userService.delete(id);
 		return "redirect:/admin/allUsers";
 	}
