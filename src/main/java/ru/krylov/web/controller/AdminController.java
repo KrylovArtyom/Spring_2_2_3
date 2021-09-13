@@ -24,7 +24,7 @@ public class AdminController {
 		this.roleService = roleService;
 	}
 
-	@GetMapping("/allUsers")
+	@GetMapping("")
 	public String getAllUsers(Model model) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("admin", userService.getByUsername(username));
@@ -44,7 +44,7 @@ public class AdminController {
 			user.addRole(roleService.getDefaultRole());
 		}
 		userService.add(user);
-		return "redirect:/admin/allUsers";
+		return "redirect:/admin";
 	}
 
 	@GetMapping("/get")
@@ -66,13 +66,13 @@ public class AdminController {
 			user.addRole(roleService.getDefaultRole());
 		}
 		userService.edit(user);
-		return "redirect:/admin/allUsers";
+		return "redirect:/admin";
 	}
 
 
 	@DeleteMapping ("/delete")
 	public String deleteUser(int id) {
 		userService.delete(id);
-		return "redirect:/admin/allUsers";
+		return "redirect:/admin";
 	}
 }

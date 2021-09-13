@@ -41,13 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.formLogin()
-
 			.successHandler(loginSuccessHandler);
 
 		http.logout()
 			.permitAll()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/login?logout")
 			.and().csrf().disable();
 
 		http.authorizeRequests()

@@ -57,7 +57,7 @@ public class User implements UserDetails {
 	@UpdateTimestamp
 	private Timestamp updatedAt;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Role> roles = new HashSet<>();
 
 	public User() {
