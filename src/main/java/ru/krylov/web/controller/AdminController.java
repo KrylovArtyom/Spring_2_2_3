@@ -19,12 +19,13 @@ public class AdminController {
 	private final UserService userService;
 	private final RoleService roleService;
 
+
 	public AdminController(UserService userService, RoleService roleService) {
 		this.userService = userService;
 		this.roleService = roleService;
 	}
 
-	@GetMapping("")
+	@GetMapping
 	public String getAllUsers(Model model) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("admin", userService.getByUsername(username));
@@ -34,8 +35,13 @@ public class AdminController {
 	}
 
 	@PostMapping("/addUser")
-	public String addUser(@ModelAttribute("addUser") @Valid User user, BindingResult bindingResult,
+	public String addUser(@Valid User user, BindingResult bindingResult,
 						  @RequestParam(value = "roleId", required = false) Integer[] roleId) {
+
+		if (bindingResult.hasErrors()) {
+
+			return "redirect:/admin";
+		}
 		if (roleId != null) {
 			for (Integer i : roleId) {
 				user.addRole(roleService.getRoleById(i));
@@ -54,16 +60,19 @@ public class AdminController {
 	}
 
 	@PutMapping ("/update")
-	public String updateUser(@ModelAttribute("user") @Valid User user,
+	public String updateUser(@Valid User user,
 							 BindingResult bindingResult,
 							 @RequestParam(value = "roleId", required = false) Integer[] roleId) {
 
+		if (bindingResult.hasErrors()) {
+			System.out.println("some error");
+			bindingResult.getModel().forEach((x, y) -> System.out.println(x));
+			return "redirect:/admin";
+		}
 		if (roleId != null) {
 			for (Integer i : roleId) {
 				user.addRole(roleService.getRoleById(i));
 			}
-		} else {
-			user.addRole(roleService.getDefaultRole());
 		}
 		userService.edit(user);
 		return "redirect:/admin";
