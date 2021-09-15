@@ -27,6 +27,7 @@ public class AdminController {
 
 	@GetMapping
 	public String getAllUsers(Model model) {
+
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("admin", userService.getByUsername(username));
 		model.addAttribute("users", userService.allUsers());
