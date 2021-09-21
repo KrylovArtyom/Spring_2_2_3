@@ -2,6 +2,7 @@ package ru.krylov.web.dao.impl;
 
 import org.springframework.stereotype.Repository;
 import ru.krylov.web.dao.UserDAO;
+import ru.krylov.web.model.Role;
 import ru.krylov.web.model.User;
 
 import javax.persistence.EntityManager;
@@ -43,6 +44,17 @@ public class UserDAOImpl implements UserDAO {
 	public User getByUsername(String username) {
 		return entityManager.createQuery("select user from User user where user.username=:us", User.class)
 				.setParameter("us", username).getSingleResult();
+	}
+
+	@Override
+	public void changeUserRoles(int id, Integer[] roleId) {
+		for (int i : roleId) {
+			String query = "INSERT INTO users_roles (user_id, roles_id) VALUES (?, ?)";
+			entityManager.createNativeQuery(query)
+					.setParameter(1, id)
+					.setParameter(2, i)
+					.executeUpdate();
+		}
 	}
 
 }

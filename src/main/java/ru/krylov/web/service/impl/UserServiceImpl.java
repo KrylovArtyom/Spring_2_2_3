@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.krylov.web.dao.UserDAO;
+import ru.krylov.web.model.Role;
 import ru.krylov.web.model.User;
 import ru.krylov.web.service.UserService;
 
@@ -57,5 +58,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional(readOnly = true)
 	public User getByUsername(String username) {
 		return userDAO.getByUsername(username);
+	}
+
+	@Override
+	@Transactional
+	public void changeUserRoles(int id, Integer[] roleId) {
+		userDAO.changeUserRoles(id, roleId);
 	}
 }

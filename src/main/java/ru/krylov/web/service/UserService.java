@@ -1,5 +1,6 @@
 package ru.krylov.web.service;
 
+import ru.krylov.web.model.Role;
 import ru.krylov.web.model.User;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UserService {
 	User getById(int id);
 
 	User getByUsername(String username);
+
+	void changeUserRoles(int id, Integer[] roleId);
 }

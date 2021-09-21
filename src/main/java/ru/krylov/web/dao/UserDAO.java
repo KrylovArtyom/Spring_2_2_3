@@ -1,5 +1,6 @@
 package ru.krylov.web.dao;
 
+import ru.krylov.web.model.Role;
 import ru.krylov.web.model.User;
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface UserDAO {
 	void edit(User user);
 	User getById(int id);
 	User getByUsername(String username);
+	void changeUserRoles(int id, Integer[] roleId);
 }
