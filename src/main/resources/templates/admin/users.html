@@ -9,7 +9,9 @@
             crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
 </head>
 <body class="bg-light">
@@ -44,7 +46,7 @@
             <h3>Admin panel</h3>
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button onclick="CleanUserTable(); GetUsersTable();" class="nav-link active" id="nav-users-table-tab" data-bs-toggle="tab"
+                    <button class="nav-link active" id="nav-users-table-tab" data-bs-toggle="tab"
                             data-bs-target="#nav-users-table" type="button" role="tab"
                             aria-controls="nav-users-table" aria-selected="true">Users table
                     </button>
@@ -80,7 +82,7 @@
                                 </table>
                                 <!--Edit modal html-->
                                 <div class="editForm">
-                                    <form method="PUT" action="/admin/update">
+                                    <form>
                                         <div class="modal fade " id="editModal" tabindex="-1" role="dialog"
                                              aria-labelledby="editModalLabel" aria-hidden="true">
 
@@ -144,7 +146,9 @@
                                                                 data-bs-dismiss="modal">
                                                             Close
                                                         </button>
-                                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                                        <button type="button" class="btn btn-primary"
+                                                                onclick="EditUser()">Edit
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -154,10 +158,9 @@
                                 </div>
                                 <!--Delete modal html-->
                                 <div class="deleteForm">
-                                    <form th:method="DELETE" th:action="@{/admin/delete}">
+                                    <form>
                                         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
                                              aria-labelledby="deleteModalLabel" aria-hidden="true">
-
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -206,7 +209,9 @@
                                                                 data-bs-dismiss="modal">
                                                             Close
                                                         </button>
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                        <button type="button" class="btn btn-danger"
+                                                                onclick="DeleteUser()" data-bs-dismiss="modal">Delete
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,11 +258,13 @@
                                 </div>
                                 <div class="col">
                                     <label for="allRolesNewUser" class="col form-label"><strong>Roles</strong></label>
-                                    <select class="form-select" size="3" multiple aria-label="multiple select" name="rolesId" id="allRolesNewUser"></select>
+                                    <select class="form-select" size="3" multiple aria-label="multiple select"
+                                            name="rolesId" id="allRolesNewUser"></select>
                                 </div>
                                 <div class="col">
                                     </br>
-                                    <button type="button" class="btn btn-success" onclick="AddNewUser()">Add new user</button>
+                                    <button type="button" class="btn btn-success" onclick="AddNewUser()">Add new user
+                                    </button>
                                     </br>
                                     </br>
                                 </div>

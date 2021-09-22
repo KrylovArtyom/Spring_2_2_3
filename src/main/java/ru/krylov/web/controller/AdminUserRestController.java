@@ -7,7 +7,6 @@ import ru.krylov.web.model.User;
 import ru.krylov.web.service.UserService;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -50,7 +49,7 @@ public class AdminUserRestController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PutMapping("/{userId}/edit")
+	@PatchMapping("/{userId}/edit")
 	public ResponseEntity<Void> updateUser(@RequestBody @Valid User user) {
 
 		if (user == null) {

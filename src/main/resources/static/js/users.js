@@ -1,7 +1,7 @@
 function CleanUserTable() {
     let e = document.getElementById('usersTable');
-    while (e.rows[0]) {
-        e.deleteRow(0);
+    while (e.rows[1]) {
+        e.deleteRow(1);
     }
 }
 
@@ -30,8 +30,8 @@ function GetUsersTable() {
                                     + roles +
                                     `</td>
                                     <td>${users[i].updatedAt}</td>
-                                    <td><a class="btn btn-info eBtn" href="/admin/users/${users[i].id}/edit">Edit</a></td>
-                                    <td><a class="btn btn-danger dBtn" href="/admin/users/${users[i].id}/delete">Delete</a></td>
+                                    <td><a class="btn btn-info eBtn" onclick="GetUserDataEditForm(${users[i].id}, 'edit')">Edit</a></td>
+                                    <td><a class="btn btn-danger dBtn" onclick="GetUserDataEditForm(${users[i].id}, 'delete')">Delete</a></td>
                               </tr>`;
                     table.innerHTML += row;
                 }
@@ -43,7 +43,7 @@ function GetUsersTable() {
         })
 }
 
-function GetAllRoles(id) {
+function GetAllRoles(tableId) {
     let url = 'http://localhost:8080/admin/roles';
     fetch(url)
         .then(response => {
@@ -51,7 +51,7 @@ function GetAllRoles(id) {
         })
         .then(data => {
             function buildFormSelectRoles(roles){
-                let table = document.getElementById(id);
+                let table = document.getElementById(tableId);
                 for (i in roles){
                     let row = `<option value="${roles[i].id}">${roles[i].name}</option>`;
                     table.innerHTML += row;
@@ -64,12 +64,11 @@ function GetAllRoles(id) {
         })
 }
 
-function AddNewUser() {
-    let url =  'http://localhost:8080/admin/users/add';
+async function AddNewUser() {
 
+    let url =  'http://localhost:8080/admin/users/add';
     let options = document.getElementById('allRolesNewUser').selectedOptions;
     let values = Array.from(options).map(({ value }) => value);
-
     let data = {
         username: document.getElementById("newUsername").value,
         name: document.getElementById("newName").value,
@@ -78,17 +77,93 @@ function AddNewUser() {
         email: document.getElementById("newEmail").value,
         roles: values
     }
-
-    fetch(url, {
+    let request = {
         method:'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(data)
-    });
+    }
+
+    let response = await fetch(url, request);
+    if (response.ok) {
+        CleanUserTable();
+        GetUsersTable();
+    }
+}
+
+function GetUserDataEditForm(userId, formId) {
+
+    let pref;
+    if (formId === `edit`) {
+        pref = `.editForm #edit`
+    }
+    if (formId === `delete`) {
+        pref = `.deleteForm #delete`
+    }
+
+    let url = 'http://localhost:8080/admin/users/'+userId;
+    fetch(url)
+        .then(response => {return response.json();})
+        .then(data => {
+            $(pref + `-id`).val(`${data.id}`);
+            $(pref + `-username`).val(`${data.username}`);
+            $(pref + `-name`).val(`${data.name}`);
+            $(pref + `-age`).val(`${data.age}`);
+            $(pref + `-email`).val(`${data.email}`);
+        })
+        .catch(function() {this.dataError = true;})
+
+    $(pref + `Modal`).modal('show');
+}
+
+async function EditUser() {
+
+    let userId = document.getElementById("edit-id").value;
+    let url =  'http://localhost:8080/admin/users/' + userId + '/edit';
+
+    let options = document.getElementById("edit-roles").selectedOptions;
+    let values = Array.from(options).map(({ value }) => value);
+
+    let data = {
+        id: document.getElementById("edit-id").value,
+        username: document.getElementById("edit-username").value,
+        name: document.getElementById("edit-name").value,
+        password: document.getElementById("edit-password").value,
+        age: document.getElementById("edit-age").value,
+        email: document.getElementById("edit-email").value,
+        roles: values
+    }
+    let request = {
+        method:'PATCH',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(data)
+    }
+
+    let response = await fetch(url, request);
+    if (response.ok) {
+        CleanUserTable();
+        GetUsersTable();
+    }
+}
+
+async function DeleteUser() {
+    let userId = document.getElementById("delete-id").value;
+    let url =  'http://localhost:8080/admin/users/' + userId + '/delete';
+    let request = {
+        method: 'DELETE'
+    }
+
+    let response = await fetch(url, request);
+    if (response.ok) {
+        CleanUserTable();
+        GetUsersTable();
+    }
 }
 
 
 //вызов функций при инициализации
 GetUsersTable();
-GetAllRoles('allRolesNewUser')
+GetAllRoles('allRolesNewUser');
