@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminPageController {
 
 	@GetMapping
-	public String getAllUsers() {
-
-		return "admin/users";
+	public String adminPage() {
+		return "admin/allUsers";
 	}
 }

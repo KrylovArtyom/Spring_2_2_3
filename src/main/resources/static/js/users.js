@@ -12,10 +12,10 @@ function GetUsersTable() {
             return response.json();
         })
         .then(data => {
-            function buildTable(users){
+            function buildTable(users) {
                 let table = document.getElementById('usersTable');
-                for (i in users){
-                    let roles =``;
+                for (i in users) {
+                    let roles = ``;
                     for (j in users[i].roles) {
                         let role = `${users[i].roles[j].name}`
                         roles += role + `<br/>`;
@@ -27,8 +27,8 @@ function GetUsersTable() {
                                     <td>${users[i].age}</td>
                                     <td>${users[i].email}</td>
                                     <td>`
-                                    + roles +
-                                    `</td>
+                        + roles +
+                        `</td>
                                     <td>${users[i].updatedAt}</td>
                                     <td><a class="btn btn-info eBtn" onclick="GetUserDataEditForm(${users[i].id}, 'edit')">Edit</a></td>
                                     <td><a class="btn btn-danger dBtn" onclick="GetUserDataEditForm(${users[i].id}, 'delete')">Delete</a></td>
@@ -36,9 +36,10 @@ function GetUsersTable() {
                     table.innerHTML += row;
                 }
             }
+
             buildTable(data);
         })
-        .catch(function() {
+        .catch(function () {
             this.dataError = true;
         })
 }
@@ -50,25 +51,26 @@ function GetAllRoles(tableId) {
             return response.json();
         })
         .then(data => {
-            function buildFormSelectRoles(roles){
+            function buildFormSelectRoles(roles) {
                 let table = document.getElementById(tableId);
-                for (i in roles){
+                for (i in roles) {
                     let row = `<option value="${roles[i].id}">${roles[i].name}</option>`;
                     table.innerHTML += row;
                 }
             }
+
             buildFormSelectRoles(data)
         })
-        .catch(function() {
+        .catch(function () {
             this.dataError = true;
         })
 }
 
 async function AddNewUser() {
 
-    let url =  'http://localhost:8080/admin/users/add';
+    let url = 'http://localhost:8080/admin/users/add';
     let options = document.getElementById('allRolesNewUser').selectedOptions;
-    let values = Array.from(options).map(({ value }) => value);
+    let values = Array.from(options).map(({value}) => value);
     let data = {
         username: document.getElementById("newUsername").value,
         name: document.getElementById("newName").value,
@@ -78,7 +80,7 @@ async function AddNewUser() {
         roles: values
     }
     let request = {
-        method:'POST',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
@@ -102,9 +104,11 @@ function GetUserDataEditForm(userId, formId) {
         pref = `.deleteForm #delete`
     }
 
-    let url = 'http://localhost:8080/admin/users/'+userId;
+    let url = 'http://localhost:8080/admin/users/' + userId;
     fetch(url)
-        .then(response => {return response.json();})
+        .then(response => {
+            return response.json();
+        })
         .then(data => {
             $(pref + `-id`).val(`${data.id}`);
             $(pref + `-username`).val(`${data.username}`);
@@ -112,7 +116,9 @@ function GetUserDataEditForm(userId, formId) {
             $(pref + `-age`).val(`${data.age}`);
             $(pref + `-email`).val(`${data.email}`);
         })
-        .catch(function() {this.dataError = true;})
+        .catch(function () {
+            this.dataError = true;
+        })
 
     $(pref + `Modal`).modal('show');
 }
@@ -120,10 +126,10 @@ function GetUserDataEditForm(userId, formId) {
 async function EditUser() {
 
     let userId = document.getElementById("edit-id").value;
-    let url =  'http://localhost:8080/admin/users/' + userId + '/edit';
+    let url = 'http://localhost:8080/admin/users/' + userId + '/edit';
 
     let options = document.getElementById("edit-roles").selectedOptions;
-    let values = Array.from(options).map(({ value }) => value);
+    let values = Array.from(options).map(({value}) => value);
 
     let data = {
         id: document.getElementById("edit-id").value,
@@ -135,7 +141,7 @@ async function EditUser() {
         roles: values
     }
     let request = {
-        method:'PATCH',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
@@ -151,7 +157,7 @@ async function EditUser() {
 
 async function DeleteUser() {
     let userId = document.getElementById("delete-id").value;
-    let url =  'http://localhost:8080/admin/users/' + userId + '/delete';
+    let url = 'http://localhost:8080/admin/users/' + userId + '/delete';
     let request = {
         method: 'DELETE'
     }
@@ -163,7 +169,52 @@ async function DeleteUser() {
     }
 }
 
+function GetCurrentUserInfo() {
+
+    let url = 'http://localhost:8080/admin/users/';
+    fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            function buildUserInfo(info) {
+                let label = document.getElementById('currentUser');
+                let row = `<label>${info[0].username}&nbsp with roles: &nbsp</label>`;
+                label.innerHTML += row;
+                for (i in info[0].roles) {
+                    row = `<label>${info[0].roles[i].name}&nbsp</label>`;
+                    label.innerHTML += row;
+                }
+
+                let tableI = document.getElementById('userInfoTable');
+                let rolesI = ``;
+                for (i in info[0].roles) {
+                    let roleI = `${info[0].roles[i].name}`
+                    rolesI += roleI + `<br/>`;
+                }
+                let rowI = `<tr>
+                                <td>${info[0].id}</td>
+                                <td>${info[0].username}</td>
+                                <td>${info[0].name}</td>
+                                <td>${info[0].age}</td>
+                                <td>${info[0].email}</td>
+                                <td>` + rolesI + `</td>
+                                <td>${info[0].updatedAt}</td>
+                                <td>${info[0].createdAt}</td>
+                            </tr>`;
+                tableI.innerHTML += rowI;
+            }
+
+            buildUserInfo(data);
+
+        })
+        .catch(function () {
+            this.dataError = true;
+        })
+}
+
 
 //вызов функций при инициализации
+GetCurrentUserInfo();
 GetUsersTable();
 GetAllRoles('allRolesNewUser');

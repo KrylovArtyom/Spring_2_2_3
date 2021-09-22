@@ -2,6 +2,7 @@ package ru.krylov.web.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.krylov.web.model.User;
 import ru.krylov.web.service.UserService;
@@ -28,7 +29,8 @@ public class AdminUserRestController {
 	public ResponseEntity<User> getUser(@PathVariable Integer userId) {
 
 		if (userId == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			String username = SecurityContextHolder.getContext().getAuthentication().getName();
+			return new ResponseEntity<>(userService.getByUsername(username), HttpStatus.OK);
 		}
 
 		User user = userService.getById(userId);
@@ -49,7 +51,7 @@ public class AdminUserRestController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PatchMapping("/{userId}/edit")
+	@PutMapping("/{userId}/edit")
 	public ResponseEntity<Void> updateUser(@RequestBody @Valid User user) {
 
 		if (user == null) {
