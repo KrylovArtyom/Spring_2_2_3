@@ -1,3 +1,4 @@
+//for admin page
 function CleanUserTable() {
     let e = document.getElementById('usersTable');
     while (e.rows[1]) {
@@ -30,8 +31,8 @@ function GetUsersTable() {
                         + roles +
                         `</td>
                                     <td>${users[i].updatedAt}</td>
-                                    <td><a class="btn btn-info eBtn" onclick="GetUserDataEditForm(${users[i].id}, 'edit')">Edit</a></td>
-                                    <td><a class="btn btn-danger dBtn" onclick="GetUserDataEditForm(${users[i].id}, 'delete')">Delete</a></td>
+                                    <td><a class="btn btn-info eBtn" onclick="GetUserDataModalForm(${users[i].id}, 'edit')">Edit</a></td>
+                                    <td><a class="btn btn-danger dBtn" onclick="GetUserDataModalForm(${users[i].id}, 'delete')">Delete</a></td>
                               </tr>`;
                     table.innerHTML += row;
                 }
@@ -94,7 +95,7 @@ async function AddNewUser() {
     }
 }
 
-function GetUserDataEditForm(userId, formId) {
+function GetUserDataModalForm(userId, formId) {
 
     let pref;
     if (formId === `edit`) {
@@ -171,7 +172,8 @@ async function DeleteUser() {
 
 function GetCurrentUserInfo() {
 
-    let url = 'http://localhost:8080/admin/users/';
+    url = 'http://localhost:8080/admin/users/';
+
     fetch(url)
         .then(response => {
             return response.json();
@@ -186,7 +188,7 @@ function GetCurrentUserInfo() {
                     label.innerHTML += row;
                 }
 
-                let tableI = document.getElementById('userInfoTable');
+                let tableI = document.getElementById('userInfoTableAdmin');
                 let rolesI = ``;
                 for (i in info[0].roles) {
                     let roleI = `${info[0].roles[i].name}`
@@ -213,8 +215,48 @@ function GetCurrentUserInfo() {
         })
 }
 
+//for user page
+function GetCurrentUserInfoUserPage() {
 
-//вызов функций при инициализации
-GetCurrentUserInfo();
-GetUsersTable();
-GetAllRoles('allRolesNewUser');
+    url = 'http://localhost:8080/user/info/';
+
+    fetch(url)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            function buildUserInfo(info) {
+                let label = document.getElementById('currentUser');
+                let row = `<label>${info.username}&nbsp with roles: &nbsp</label>`;
+                label.innerHTML += row;
+                for (i in info.roles) {
+                    row = `<label>${info.roles[i].name}&nbsp</label>`;
+                    label.innerHTML += row;
+                }
+
+                let tableI = document.getElementById('userInfoTableUser');
+                let rolesI = ``;
+                for (i in info.roles) {
+                    let roleI = `${info.roles[i].name}`
+                    rolesI += roleI + `<br/>`;
+                }
+                let rowI = `<tr>
+                                <td>${info.id}</td>
+                                <td>${info.username}</td>
+                                <td>${info.name}</td>
+                                <td>${info.age}</td>
+                                <td>${info.email}</td>
+                                <td>` + rolesI + `</td>
+                                <td>${info.updatedAt}</td>
+                                <td>${info.createdAt}</td>
+                            </tr>`;
+                tableI.innerHTML += rowI;
+            }
+
+            buildUserInfo(data);
+
+        })
+        .catch(function () {
+            this.dataError = true;
+        })
+}

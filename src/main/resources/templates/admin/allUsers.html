@@ -14,7 +14,7 @@
             crossorigin="anonymous"></script>
 
 </head>
-<body class="bg-light">
+<body class="bg-light" onload="GetCurrentUserInfo(); GetUsersTable(); GetAllRoles('allRolesNewUser');">
 
 <header class="bd-header bg-dark py-1 d-flex align-items-stretch border-bottom border-dark">
     <div class="container-fluid d-flex align-items-center">
@@ -284,7 +284,7 @@
                         </div>
                         <div class="col border-top bg-white">
                             <div class="bg-white">
-                                <table class="table table-striped" id="userInfoTable">
+                                <table class="table table-striped" id="userInfoTableAdmin">
                                     <thead>
                                     <tr>
                                         <th scope="col">id</th>
@@ -308,5 +308,6 @@
 </div>
 
 <script src="/js/users.js"></script>
+
 </body>
 </html>
