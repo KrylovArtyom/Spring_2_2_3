@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/admin/users")
 public class AdminUserRestController {
 
-	final private UserService userService;
+	private final UserService userService;
 
 	public AdminUserRestController(UserService userService) {
 		this.userService = userService;

@@ -113,6 +113,7 @@ function GetUserDataModalForm(userId, formId) {
         .then(data => {
             $(pref + `-id`).val(`${data.id}`);
             $(pref + `-username`).val(`${data.username}`);
+            $(pref + `-password`).val(`${data.password}`);
             $(pref + `-name`).val(`${data.name}`);
             $(pref + `-age`).val(`${data.age}`);
             $(pref + `-email`).val(`${data.email}`);
